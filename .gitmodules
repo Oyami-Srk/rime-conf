@@ -1,3 +1,27 @@
 [submodule "rime-repos/rime-luna-pinyin"]
 	path = rime-repos/rime-luna-pinyin
 	url = https://github.com/rime/rime-luna-pinyin
+[submodule "rime-repos/rime-double-pinyin"]
+	path = rime-repos/rime-double-pinyin
+	url = https://github.com/rime/rime-double-pinyin
+[submodule "rime-repos/rime-essay"]
+	path = rime-repos/rime-essay
+	url = https://github.com/rime/rime-essay
+[submodule "rime-repos/rime-emoji"]
+	path = rime-repos/rime-emoji
+	url = https://github.com/rime/rime-emoji
+[submodule "rime-repos/rime-easy-en"]
+	path = rime-repos/rime-easy-en
+	url = https://github.com/BlindingDark/rime-easy-en
+[submodule "rime-repos/rime-nihongo-romaji"]
+	path = rime-repos/rime-nihongo-romaji
+	url = https://github.com/m13253/rime-nihongo-romaji
+[submodule "rime-repos/rime_latex"]
+	path = rime-repos/rime_latex
+	url = https://github.com/shenlebantongying/rime_latex
+[submodule "rime-repos/rime-symbolic-simp"]
+	path = rime-repos/rime-symbolic-simp
+	url = https://github.com/sgalal/rime-symbolic-simp
+[submodule "rime-repos/meow-emoji-rime"]
+	path = rime-repos/meow-emoji-rime
+	url = https://github.com/hitigon/meow-emoji-rime
