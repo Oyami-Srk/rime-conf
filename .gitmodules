@@ -1,0 +1,3 @@
+[submodule "rime-repos/rime-luna-pinyin"]
+	path = rime-repos/rime-luna-pinyin
+	url = https://github.com/rime/rime-luna-pinyin

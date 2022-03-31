@@ -1,0 +1,19 @@
+# Rime Custom settings
+# Shiroko <hhx.xxm@gmail.com>
+# 2022-3-31
+
+patch:
+  schema_list:
+    - schema: zrm2000
+  "switcher/caption": 〔方案选单〕
+  "switcher/hotkeys":
+      - "Control+equal"
+      - "Control+grave"
+  "ascii_composer/good_old_caps_lock": false
+  "ascii_composer/switch_key":
+    Caps_Lock: commit_code
+    Shift_L: noop
+    Shift_R: commit_code
+    Control_L: noop
+    Control_R: noop
+  "menu/page_size": 9
