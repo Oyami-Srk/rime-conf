@@ -1,0 +1,1 @@
+../rime-repos/rime-easy-en/lua/easy_en.lua

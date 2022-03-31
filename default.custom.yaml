@@ -5,6 +5,8 @@
 patch:
   schema_list:
     - schema: zrm2000
+    - schema: easy_en
+    - schema: nihongo_romaji
   "switcher/caption": 〔方案选单〕
   "switcher/hotkeys":
       - "Control+equal"
