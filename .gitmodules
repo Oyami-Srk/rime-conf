@@ -1,9 +1,6 @@
 [submodule "rime-repos/rime-luna-pinyin"]
 	path = rime-repos/rime-luna-pinyin
 	url = https://github.com/rime/rime-luna-pinyin
-[submodule "rime-repos/rime-double-pinyin"]
-	path = rime-repos/rime-double-pinyin
-	url = https://github.com/rime/rime-double-pinyin
 [submodule "rime-repos/rime-essay"]
 	path = rime-repos/rime-essay
 	url = https://github.com/rime/rime-essay
@@ -25,3 +22,15 @@
 [submodule "rime-repos/meow-emoji-rime"]
 	path = rime-repos/meow-emoji-rime
 	url = https://github.com/hitigon/meow-emoji-rime
+[submodule "rime-repos/rime-zrm"]
+	path = rime-repos/rime-zrm
+	url = https://github.com/bigshans/rime-zrm
+[submodule "rime-repos/rime-stroke"]
+	path = rime-repos/rime-stroke
+	url = https://github.com/rime/rime-stroke
+[submodule "rime-repos/rime-terra-pinyin"]
+	path = rime-repos/rime-terra-pinyin
+	url = https://github.com/rime/rime-terra-pinyin
+[submodule "rime-repos/rime-japanese"]
+	path = rime-repos/rime-japanese
+	url = https://github.com/gkovacs/rime-japanese

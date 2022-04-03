@@ -1,0 +1,1 @@
+../rime-repos/rime-emoji/opencc/emoji_category.txt

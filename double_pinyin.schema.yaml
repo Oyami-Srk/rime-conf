@@ -1,0 +1,140 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: double_pinyin
+  name: 自然码+多语混合
+  version: "0.1"
+  author:
+    - 佛振 <chen.sst@gmail.com>
+    - Shiroko <hhx.xxm@gmail.com>
+  description: |
+    朙月拼音＋自然碼雙拼方案，带日英等混合输入。
+  dependencies:
+    - emoji
+    - easy_en
+    - zrm_pinyin
+    - luna_pinyin
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中, 英 ]
+  - name: full_shape
+    states: [ 半, 全 ]
+  - name: simplification
+    reset: 1
+    states: [ 漢, 汉 ]
+  - name: ascii_punct
+    states: [ 。，, ．， ]
+  - name: _hide_comment
+    reset: 1
+  - name: emoji_suggestion
+    reset: 0
+    states: [ "🈚️️\uFE0E", "🈶️️\uFE0F" ]
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - reverse_lookup_translator
+    - script_translator
+    - table_translator@easy_en
+  filters:
+    - simplifier@emoji_suggestion
+    - simplifier@zrm_pinyin
+    - uniquifier
+  
+speller:
+  alphabet: "zyxwvutsrqponmlkjihgfedcba;"
+  initials: 'abcdefghijklmnopqrstuvwxyz'
+  delimiter: " '"
+  algebra:
+    - derive/^(\w*);(\w)(\w)$/$1;$2$3/
+    - derive/^(\w*);(\w)(\w)$/$1;$2/
+    - derive/^(\w*);(\w)(\w)$/$1/
+    # - erase/^xx$/
+    # - derive/^([jqxy])u$/$1v/
+    # - derive/^([aoe])([ioun])$/$1$1$2/
+    # - derive/^(\w*);(\w)$/$1;$2/
+    # - xform/^([aoe])(ng)?$/$1$1$2/
+    # - xform/iu$/Q/
+    # - xform/[iu]a$/W/
+    # - xform/[uv]an$/R/
+    # - xform/[uv]e$/T/
+    # - xform/ing$|uai$/Y/
+    # - xform/^sh/U/
+    # - xform/^ch/I/
+    # - xform/^zh/V/
+    # - xform/uo$/O/
+    # - xform/[uv]n$/P/
+    # - xform/i?ong$/S/
+    # - xform/[iu]ang$/D/
+    # - xform/(.)en$/$1F/
+    # - xform/(.)eng$/$1G/
+    # - xform/(.)ang$/$1H/
+    # - xform/ian$/M/
+    # - xform/(.)an$/$1J/
+    # - xform/iao$/C/
+    # - xform/(.)ao$/$1K/
+    # - xform/(.)ai$/$1L/
+    # - xform/(.)ei$/$1Z/
+    # - xform/ie$/X/
+    # - xform/ui$/V/
+    # - xform/(.)ou$/$1B/
+    # - xform/in$/N/
+    # - xlit/QWRTYUIOPSDFGHMJCKLZXVBN/qwrtyuiopsdfghmjcklzxvbn/
+    # 下面这个开起来会非常卡
+    # - abbrev/^(.).+$/$1/
+    - abbrev/^(.{2});+$/$1/
+
+translator:
+  dictionary: zrm_pinyin
+  prism: zrm_pinyin
+
+easy_en:
+  dictionary: easy_en
+  enable_completion: true
+  enable_sentence: false
+  initial_quality: -90
+  use_wordninja_rs: true
+  wordninja_rs_path: "/home/shiroko/.cargo/bin/wordninja"
+
+
+# reverse_lookup:
+#   dictionary: emoji
+#   enable_completion: true
+#   prefix: "`"
+#   suffix: "'"
+#   tips: 〔Emoji〕
+
+punctuator:
+  import_preset: symbols
+
+key_binder:
+  import_preset: default
+
+recognizer:
+  import_preset: default
+  patterns:
+    reverse_lookup: "`[a-z]*'?$"
+    punct: "^/([A-Z|a-z]*|[0-9]|10)$"
+
+emoji_suggestion:
+  opencc_config: emoji.json
+  option_name: emoji_suggestion
+  tips: all
