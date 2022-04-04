@@ -9,6 +9,8 @@ schema:
   author:
     - ensigma96 <ensigma96@gmail.com>
     - shiroko <hhx.xxm@gmail.com>
+  dependencies:
+    - liangfen_zrm
 
 switches:
   - name: ascii_mode
@@ -72,7 +74,7 @@ key_binder:
     - { when: has_menu, accept: equal, send: equal }
 
 reverse_lookup:
-  dictionary: zrm_pinyin
+  dictionary: liangfen_zrm
   enable_completion: true
   prefix: "`"
   tips: 〔汉查日〕
