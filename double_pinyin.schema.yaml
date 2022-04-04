@@ -11,10 +11,11 @@ schema:
   description: |
     朙月拼音＋自然碼雙拼方案，带日英等混合输入。
   dependencies:
-    - emoji
     - easy_en
     - zrm_pinyin
+    - zrm_lookup
     - luna_pinyin
+    - nihongo-r
 
 switches:
   - name: ascii_mode
@@ -54,13 +55,14 @@ engine:
     - reverse_lookup_translator
     - script_translator
     - table_translator@easy_en
+    - table_translator@nihongo-r
   filters:
     - simplifier@emoji_suggestion
     - simplifier@zrm_pinyin
     - uniquifier
   
 speller:
-  alphabet: "zyxwvutsrqponmlkjihgfedcba;"
+  alphabet: ",.zyxwvutsrqponmlkjihgfedcba;"
   initials: 'abcdefghijklmnopqrstuvwxyz'
   delimiter: " '"
   algebra:
@@ -103,7 +105,7 @@ speller:
     - abbrev/^(.{2});+$/$1/
 
 translator:
-  dictionary: zrm_pinyin
+  dictionary: zrm_pinyin.ext
   prism: zrm_pinyin
 
 easy_en:
@@ -114,24 +116,31 @@ easy_en:
   use_wordninja_rs: true
   wordninja_rs_path: "/home/shiroko/.cargo/bin/wordninja"
 
+nihongo-r:
+  dictionary: japanese
+  enable_completion: true
+  enable_sentence: true
+  initial_quality: -30
 
-# reverse_lookup:
-#   dictionary: emoji
-#   enable_completion: true
-#   prefix: "`"
-#   suffix: "'"
-#   tips: 〔Emoji〕
+reverse_lookup:
+  dictionary: zrm_lookup
+  enable_completion: true
+  prefix: "`"
+  suffix: "'"
+  tips: 〔自然码查询〕
 
 punctuator:
   import_preset: symbols
 
 key_binder:
   import_preset: default
+  bindings:
+    - { when: always, accept: "Control+Shift+E", toggle: emoji_suggestion }
 
 recognizer:
   import_preset: default
   patterns:
-    reverse_lookup: "`[a-z]*'?$"
+    reverse_lookup: "`[a-z,.]*'?$"
     punct: "^/([A-Z|a-z]*|[0-9]|10)$"
 
 emoji_suggestion:

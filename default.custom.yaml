@@ -5,9 +5,8 @@
 patch:
   schema_list:
     - schema: double_pinyin
-    - schema: zrm_pinyin
     - schema: easy_en
-    - schema: japanese
+    - schema: easy_jp
   switcher/caption: 〔方案选单〕
   switcher/hotkeys:
       - "Control+equal"
@@ -29,8 +28,13 @@ patch:
     # Switch ASCII punct
     - { when: composing, accept: Control+period, toggle: ascii_punct}
     # Switch Schema
-    # - { when: always, accept: Control+Shift+1, select: double_pinyin}
-    # - { when: always, accept: Control+Shift+2, select: japanese}
+    - { when: always, accept: "Control+Shift+1", select: double_pinyin}
+    - { when: always, accept: "Control+Shift+exclam", select: double_pinyin}
+    - { when: always, accept: "Control+Shift+2", select: easy_en}
+    - { when: always, accept: "Control+Shift+at", select: easy_en}
+    - { when: always, accept: "Control+Shift+3", select: easy_jp}
+    - { when: always, accept: "Control+Shift+numbersign", select: easy_jp}
+
     # - {accept: "Control+Shift+1", select: .next, when: always}
     # - {accept: "Control+Shift+2", toggle: ascii_mode, when: always}
     # - {accept: "Control+Shift+3", toggle: full_shape, when: always}

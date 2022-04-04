@@ -1,0 +1,86 @@
+# Rime schema
+# vim: set sw=2 sts=2 et:
+# encoding: utf-8
+
+schema:
+  schema_id: easy_jp
+  name: 日本語
+  version: 'v0.1'
+  author:
+    - ensigma96 <ensigma96@gmail.com>
+    - shiroko <hhx.xxm@gmail.com>
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中文, 西文 ]
+  - name: full_shape
+    states: [ 半角, 全角 ]
+  - name: simplification
+    states: [ 漢字, 汉字 ]
+  - name: ascii_punct
+    states: [ 。，, ．， ]
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - script_translator
+    - reverse_lookup_translator
+  filters:
+    - uniquifier
+
+speller:
+  alphabet: 'zyxwvutsrqponmlkjihgfedcba-_'
+  delimiter: " '"
+  algebra:
+    - 'derive/_/x/'
+    - 'derive/-/q/'
+    # Add / remove rules the as you wish
+    - 'derive/i_e/ye/'
+    # - 'derive/fu/hu/'
+
+translator:
+  dictionary: japanese
+  spelling_hints: 5
+  comment_format:
+    - 'xlit|q|ー|'
+  preedit_format:
+    - 'xlit|q|ー|'
+
+punctuator:
+  import_preset: default
+
+key_binder:
+  import_preset: default
+  bindings:
+    - { when: has_menu, accept: minus, send: minus }
+    - { when: has_menu, accept: equal, send: equal }
+
+reverse_lookup:
+  dictionary: zrm_pinyin
+  enable_completion: true
+  prefix: "`"
+  tips: 〔汉查日〕
+
+recognizer:
+  import_preset: default
+  patterns:
+    reverse_lookup: "`[a-z;]*$"
+
+ascii_composer:
+  import_preset: default

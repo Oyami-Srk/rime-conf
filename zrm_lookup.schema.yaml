@@ -1,0 +1,63 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: zrm_lookup
+  name: 自然码查询
+  version: "0.1"
+  author:
+    - "发明人：周志农 先生"
+    - Shiroko
+  description: |
+    自然码单字编码、偏旁反切查询
+    基于 自然码2009 新春版 V7.27
+
+switches:
+  - name: full_shape
+    states: [ 半角, 全角 ]
+  - name: simplification
+    states: [ 漢字, 汉字 ]
+  - name: ascii_punct
+    states: [ 。，, ．， ]
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - script_translator
+  filters:
+    - simplifier
+    - uniquifier
+
+speller:
+  alphabet: "zyxwvutsrqponmlkjihgfedcba,."
+  initials: "abcdefghijklmnopqrstuvwxyz"
+  delimiter: " '"
+  max_code_length: 6
+
+
+translator:
+  dictionary: zrm_lookup
+
+punctuator:
+  import_preset: default
+
+key_binder:
+  import_preset: default
+
+recognizer:
+  import_preset: default
