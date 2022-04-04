@@ -1,8 +1,0 @@
-# Japanese Custom Patch
-# Author: Shiroko <hhx.xxm@gmail.com>
-
-patch:
-  key_binder:
-    bindings:
-      -
-    import_preset: default
