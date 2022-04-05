@@ -37,3 +37,9 @@
 [submodule "rime-repos/rime-xyz"]
 	path = rime-repos/rime-xyz
 	url = https://github.com/jakwings/rime-xyz
+[submodule "rime-repos/rime-octagram-data"]
+	path = rime-repos/rime-octagram-data
+	url = https://github.com/lotem/rime-octagram-data
+[submodule "rime-repos/plum"]
+	path = rime-repos/plum
+	url = https://github.com/rime/plum

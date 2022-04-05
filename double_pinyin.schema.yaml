@@ -64,6 +64,7 @@ engine:
     - table_translator@latex
     - table_translator@zrm_lookup
     - table_translator@symbol
+    - lua_translator@date_translator
   filters:
     - simplifier
     - simplifier@emoji_suggestion
