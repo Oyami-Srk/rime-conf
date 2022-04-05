@@ -7,6 +7,7 @@ patch:
     - schema: double_pinyin
     - schema: easy_en
     - schema: easy_jp
+    - schema: latex
   switcher/caption: 〔方案选单〕
   switcher/hotkeys:
       - "Control+equal"
@@ -34,6 +35,7 @@ patch:
     - { when: always, accept: "Control+Shift+at", select: easy_en}
     - { when: always, accept: "Control+Shift+3", select: easy_jp}
     - { when: always, accept: "Control+Shift+numbersign", select: easy_jp}
+    - { when: always, accept: "Control+Shift+space", select: .next}
 
     # - {accept: "Control+Shift+1", select: .next, when: always}
     # - {accept: "Control+Shift+2", toggle: ascii_mode, when: always}

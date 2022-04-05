@@ -9,13 +9,14 @@ schema:
     - 佛振 <chen.sst@gmail.com>
     - Shiroko <hhx.xxm@gmail.com>
   description: |
-    朙月拼音＋自然碼雙拼方案，带日英等混合输入。
+    朙月拼音＋自然碼雙拼方案，带日英、LaTeX等混合输入。
   dependencies:
     - easy_en
     - zrm_pinyin
     - zrm_lookup
     - luna_pinyin
-    - nihongo-r
+    - japanese
+    - latex
 
 switches:
   - name: ascii_mode
@@ -48,6 +49,7 @@ engine:
     - ascii_segmentor
     - matcher
     - abc_segmentor
+    - affix_segmentor@latex
     - punct_segmentor
     - fallback_segmentor
   translators:
@@ -55,10 +57,11 @@ engine:
     - reverse_lookup_translator
     - script_translator
     - table_translator@easy_en
-    - table_translator@nihongo-r
+    - table_translator@jpn
+    - table_translator@latex
   filters:
+    - simplifier
     - simplifier@emoji_suggestion
-    - simplifier@zrm_pinyin
     - uniquifier
   
 speller:
@@ -116,11 +119,29 @@ easy_en:
   use_wordninja_rs: true
   wordninja_rs_path: "/home/shiroko/.cargo/bin/wordninja"
 
-nihongo-r:
+jpn:
   dictionary: japanese
   enable_completion: true
   enable_sentence: true
   initial_quality: -30
+
+latex:
+  tag: latex
+  prefix: '\'
+  suffix: ';'
+  tips: 〔LaTeX〕
+  closing_tips: 〔自然码〕
+  dictionary: latex
+  prism: latex_symbols
+  auto_select: true
+  enable_completion: true
+  enable_encoder: false
+  enable_sentence: false
+  enable_user_dict: false
+  encode_commit_history: false
+  comment_format:
+    - xform/\^/\\^/
+    - xform/_/\\_/
 
 reverse_lookup:
   dictionary: zrm_lookup
@@ -142,8 +163,9 @@ recognizer:
   patterns:
     reverse_lookup: "`[a-z,.]*'?$"
     punct: "^/([A-Z|a-z]*|[0-9]|10)$"
+    latex: \\[a-z0-9A-Z^-_\\><\+=\(\)\[\]]+;?
 
 emoji_suggestion:
   opencc_config: emoji.json
   option_name: emoji_suggestion
-  tips: all
+  tips: none
