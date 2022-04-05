@@ -17,6 +17,7 @@ schema:
     - luna_pinyin
     - japanese
     - latex
+    - &symbol symbols
 
 switches:
   - name: ascii_mode
@@ -51,6 +52,7 @@ engine:
     - abc_segmentor
     - affix_segmentor@latex
     - affix_segmentor@zrm_lookup
+    - affix_segmentor@symbol
     - punct_segmentor
     - fallback_segmentor
   translators:
@@ -61,6 +63,7 @@ engine:
     - table_translator@jpn
     - table_translator@latex
     - table_translator@zrm_lookup
+    - table_translator@symbol
   filters:
     - simplifier
     - simplifier@emoji_suggestion
@@ -126,6 +129,22 @@ zrm_lookup:
   suffix: "'"
   tips: 〔自然码查询〕
 
+symbol:
+  tag: symbol
+  prefix: '/'
+  suffix: ';'
+  tips: 〔符号〕
+  closing_tips: 〔自然码〕
+  dictionary: *symbol
+  prism: *symbol
+  enable_completion: true
+  enable_encoder: false
+  enable_sentence: true
+  enable_user_dict: false
+  encode_commit_history: false
+  comment_format:
+    - xform/[!"':]+/:/
+
 punctuator:
   import_preset: symbols
 
@@ -137,9 +156,11 @@ key_binder:
 recognizer:
   import_preset: default
   patterns:
-    punct: "^/([A-Z|a-z]*|[0-9]|10)$"
+    # punct: "^/([A-Z|a-z]*|[0-9]|10)$"
+    punct: null
     latex: \\[a-z0-9A-Z^-_\\><\+=\(\)\[\]]+;?
     zrm_lookup: "`z[a-z,.]*'?$"
+    symbol: /[a-z0-9?']+;?
 
 emoji_suggestion:
   opencc_config: emoji.json

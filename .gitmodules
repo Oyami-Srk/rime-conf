@@ -34,3 +34,6 @@
 [submodule "rime-repos/rime-japanese"]
 	path = rime-repos/rime-japanese
 	url = https://github.com/gkovacs/rime-japanese
+[submodule "rime-repos/rime-xyz"]
+	path = rime-repos/rime-xyz
+	url = https://github.com/jakwings/rime-xyz
