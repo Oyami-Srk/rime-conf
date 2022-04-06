@@ -156,6 +156,7 @@ key_binder:
     - { when: always, accept: "Control+Shift+E", toggle: emoji_suggestion }
   select_first_character: 'comma'
   select_last_character: 'period'
+  select_character_only_for_initial: 'abcdefghijklmnopqrstuvwxyz'
 
 
 recognizer:
