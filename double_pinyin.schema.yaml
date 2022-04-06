@@ -167,3 +167,9 @@ emoji_suggestion:
   opencc_config: emoji.json
   option_name: emoji_suggestion
   tips: none
+
+grammar:
+  language: zh-hans-t-essay-bgw
+translator/contextual_suggestions: true
+translator/max_homophones: 7
+translator/max_homographs: 7
