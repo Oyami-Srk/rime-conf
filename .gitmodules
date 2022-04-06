@@ -43,4 +43,4 @@
 	branch = hans
 [submodule "rime-repos/rime-lua-select-character"]
 	path = rime-repos/rime-lua-select-character
-	url = https://github.com/BlindingDark/rime-lua-select-character
+	url = git@github.com:Oyami-Srk/rime-lua-select-character
