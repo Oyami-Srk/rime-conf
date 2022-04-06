@@ -8,8 +8,12 @@ with open("base_singal_char_weight.txt", "r") as f:
 
 with open("zrm_pinyin.dict.yaml", "r") as f:
     for l in f.readlines():
-        s = l.strip().split('\t')
-        if s[0] in weight_map.keys():
-            print("%s\t%s\t%d"%(s[0],s[1],weight_map[s[0]]))
-        else:
-            print("%s\t%s"%(s[0], s[1]))
+        s = l.rstrip().split('\t')
+        try:
+            if s[0] in weight_map.keys():
+                print("%s\t%s\t%d" % (s[0], s[1], weight_map[s[0]]))
+            else:
+                print("%s\t%s" % (s[0], s[1]))
+        except:
+            print(s)
+            exit(-1)
