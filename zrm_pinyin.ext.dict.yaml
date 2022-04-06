@@ -4,5 +4,5 @@ version: "1.0"
 sort: by_weight
 use_preset_vocabulary: true
 import_tables:
-  - zrm_pinyin
+  - zrm_pinyin.weight
 ...
