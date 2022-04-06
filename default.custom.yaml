@@ -7,7 +7,6 @@ patch:
     - schema: double_pinyin
     - schema: easy_en
     - schema: easy_jp
-    - schema: latex
   switcher/caption: 〔方案选单〕
   switcher/hotkeys:
       - "Control+equal"

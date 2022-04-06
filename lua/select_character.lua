@@ -1,0 +1,1 @@
+../rime-repos/rime-lua-select-character/lua/select_character.lua

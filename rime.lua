@@ -44,3 +44,7 @@ end
 local charset = require("charset")
 charset_filter = charset.filter
 charset_comment_filter = charset.comment_filter
+
+-- select_character_processor: 以词定字
+-- 详见 `lua/select_character.lua`
+select_character_processor = require("select_character")

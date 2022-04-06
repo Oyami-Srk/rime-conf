@@ -38,6 +38,7 @@ switches:
 
 engine:
   processors:
+    - lua_processor@select_character_processor
     - ascii_composer
     - recognizer
     - key_binder
@@ -71,7 +72,7 @@ engine:
     - uniquifier
   
 speller:
-  alphabet: ",.zyxwvutsrqponmlkjihgfedcba;"
+  alphabet: "zyxwvutsrqponmlkjihgfedcba;"
   initials: 'abcdefghijklmnopqrstuvwxyz'
   delimiter: " '"
   algebra:
@@ -153,6 +154,9 @@ key_binder:
   import_preset: default
   bindings:
     - { when: always, accept: "Control+Shift+E", toggle: emoji_suggestion }
+  select_first_character: 'comma'
+  select_last_character: 'period'
+
 
 recognizer:
   import_preset: default

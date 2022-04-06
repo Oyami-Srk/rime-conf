@@ -41,3 +41,6 @@
 	path = rime-repos/rime-octagram-data
 	url = https://github.com/lotem/rime-octagram-data
 	branch = hans
+[submodule "rime-repos/rime-lua-select-character"]
+	path = rime-repos/rime-lua-select-character
+	url = https://github.com/BlindingDark/rime-lua-select-character
