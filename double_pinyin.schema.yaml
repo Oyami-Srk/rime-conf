@@ -12,7 +12,6 @@ schema:
     朙月拼音＋自然碼雙拼方案，带日英、LaTeX等混合输入。
   dependencies:
     - easy_en
-    - zrm_pinyin
     - zrm_lookup
     - luna_pinyin
     - japanese

@@ -13,6 +13,8 @@ schema:
     Use《http://yedict.com/》
     http://yedict.com/
     Dict is from http://yedict.com/
+  dependencies:
+    - zrm_pinyin
 
 switches:
   - name: ascii_mode
@@ -58,7 +60,7 @@ translator:
   spelling_hints: 4
 
 reverse_lookup:
-  dictionary: zrm_pinyin
+  dictionary: zrm_pinyin.weight
   prefix: "`"
   tips: 〔自然码〕
 
