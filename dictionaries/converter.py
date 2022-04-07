@@ -249,6 +249,7 @@ with open(additional_codec, 'r') as f:
         zrm_table[s[0]] = zrm
 
 result = []
+enable_f1 = False
 
 for _, char in chars.items():
     has = False
@@ -269,8 +270,18 @@ for _, char in chars.items():
             continue
         for code in codes:
             for p in convert_py_to_zrm(py[0]):
-                ot = f"{cc}\t{p};{code}\t{py[1]}"
-                result.append(ot)
+                if not enable_f1:
+                    ot = f"{cc}\t{p};{code}\t{py[1]}"
+                    result.append(ot)
+                else:
+                    head = f"{cc}\t{p}"
+                    # result.append(head)
+                    result.append(head+f"\t{py[1]}")
+                    # result.append(head+f";{code[0]}\t{py[1]}")
+                    # result.append(head+f";{code}\t{py[1]}")
+            if enable_f1:
+                break
+
 
 print(f"There are totally {len(uncoded)} uncoded chars.")
 print(f"Converted result: totally {len(result)} codec.")

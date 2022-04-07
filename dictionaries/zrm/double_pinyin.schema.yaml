@@ -1,0 +1,179 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: double_pinyin
+  name: 自然码+多语混合
+  version: "0.1"
+  author:
+    - 佛振 <chen.sst@gmail.com>
+    - Shiroko <hhx.xxm@gmail.com>
+  description: |
+    朙月拼音＋自然碼雙拼方案，带日英、LaTeX等混合输入。
+  # dependencies:
+    # - easy_en
+    # - zrm_lookup
+    # - luna_pinyin
+    # - japanese
+    # - latex
+    # - &symbol symbols
+
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中, 英 ]
+  - name: full_shape
+    states: [ 半, 全 ]
+  - name: simplification
+    reset: 1
+    states: [ 漢, 汉 ]
+  - name: ascii_punct
+    states: [ 。，, ．， ]
+  - name: _hide_comment
+    reset: 1
+  - name: emoji_suggestion
+    reset: 0
+    states: [ "🈚️️\uFE0E", "🈶️️\uFE0F" ]
+
+engine:
+  processors:
+    # - lua_processor@select_character_processor
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    # - affix_segmentor@latex
+    # - affix_segmentor@zrm_lookup
+    # - affix_segmentor@symbol
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - reverse_lookup_translator
+    - script_translator
+    # - table_translator@easy_en
+    # - table_translator@jpn
+    # - table_translator@latex
+    # - table_translator@zrm_lookup
+    # - table_translator@symbol
+    # - lua_translator@date_translator
+  filters:
+    - simplifier
+    # - simplifier@emoji_suggestion
+    - uniquifier
+  
+speller:
+  alphabet: "zyxwvutsrqponmlkjihgfedcba;:"
+  initials: 'abcdefghijklmnopqrstuvwxyz'
+  delimiter: " '"
+  algebra:
+    - derive/^(\w*);(\w)(\w)$/$1;$2$3/
+    - derive/^(\w*);(\w)(\w)$/$1;$2/
+    - derive/^(\w*);(\w)(\w)$/$1/
+    # 下面这个开起来会非常卡
+    # - abbrev/^(.).+$/$1/
+    - abbrev/^(.{2});+$/$1/
+
+translator:
+  dictionary: zrm_pinyin.ext
+  prism: zrm_pinyin
+
+# easy_en:
+#   dictionary: easy_en
+#   enable_completion: true
+#   enable_sentence: false
+#   initial_quality: -90
+#   use_wordninja_rs: true
+#   wordninja_rs_path: "/home/shiroko/.cargo/bin/wordninja"
+# 
+# jpn:
+#   dictionary: japanese
+#   enable_completion: true
+#   enable_sentence: true
+#   initial_quality: -30
+# 
+# latex:
+#   tag: latex
+#   prefix: '\'
+#   suffix: ';'
+#   tips: 〔LaTeX〕
+#   closing_tips: 〔自然码〕
+#   dictionary: latex
+#   prism: latex_symbols
+#   auto_select: true
+#   enable_completion: true
+#   enable_encoder: false
+#   enable_sentence: false
+#   enable_user_dict: false
+#   encode_commit_history: false
+#   comment_format:
+#     - xform/\^/\\^/
+#     - xform/_/\\_/
+# 
+# zrm_lookup:
+#   tag: zrm_lookup
+#   dictionary: zrm_lookup
+#   enable_completion: true
+#   enable_encoder: false
+#   enable_sentence: false
+#   enable_user_dict: false
+#   encode_commit_history: false
+#   prefix: "`z"
+#   suffix: "'"
+#   tips: 〔自然码查询〕
+# 
+# symbol:
+#   tag: symbol
+#   prefix: '/'
+#   suffix: ';'
+#   tips: 〔符号〕
+#   closing_tips: 〔自然码〕
+#   dictionary: *symbol
+#   prism: *symbol
+#   enable_completion: true
+#   enable_encoder: false
+#   enable_sentence: true
+#   enable_user_dict: false
+#   encode_commit_history: false
+#   comment_format:
+#     - xform/[!"':]+/:/
+
+punctuator:
+  import_preset: symbols
+
+key_binder:
+  import_preset: default
+  bindings:
+    - { when: always, accept: "Control+Shift+E", toggle: emoji_suggestion }
+  select_first_character: 'comma'
+  select_last_character: 'period'
+  select_character_only_for_initial: 'abcdefghijklmnopqrstuvwxyz'
+
+
+recognizer:
+  import_preset: default
+  patterns:
+    # punct: "^/([A-Z|a-z]*|[0-9]|10)$"
+    # punct: null
+    # latex: \\[a-z0-9A-Z^-_\\><\+=\(\)\[\]]+;?
+    # zrm_lookup: "`z[a-z,.]*'?$"
+    # symbol: /[a-z0-9?']+;?
+
+# emoji_suggestion:
+#   opencc_config: emoji.json
+#   option_name: emoji_suggestion
+#   tips: none
+# 
+# grammar:
+#   language: zh-hans-t-essay-bgw
+# translator/contextual_suggestions: true
+# translator/max_homophones: 7
+# translator/max_homographs: 7

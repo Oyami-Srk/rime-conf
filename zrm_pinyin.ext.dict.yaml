@@ -4,6 +4,7 @@ version: "1.0"
 sort: by_weight
 use_preset_vocabulary: true
 import_tables:
+  - zrm_pinyin.py
   - zrm_pinyin.weight
   - xian_dai_han_yu_chang_yong_ci_biao
   - wang_luo_liu_xing_xin_ci

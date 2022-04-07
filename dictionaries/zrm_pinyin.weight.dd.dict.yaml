@@ -8,7 +8,7 @@ use_preset_vocabulary: true
 columns:
   - text
   - code
-  # - weight # 取消这行注释会导致字频乱套
+  - weight
 ...
 的	de;bu	579392145
 的	di;bu	95341
