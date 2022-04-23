@@ -1,14 +1,15 @@
-# Rime dictionary: zrm_pinyin.weight
+# Rime dictionary: zrm_pinyin.py
 # encoding: utf-8
 ---
 name: zrm_pinyin.py
 version: "1.0"
 sort: by_weight
 use_preset_vocabulary: true
+# use_preset_vocabulary: false
 columns:
   - text
   - code
-  - weight
+  # - weight
 ...
 的	de	579392145
 的	di	95341

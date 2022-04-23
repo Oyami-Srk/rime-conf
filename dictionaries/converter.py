@@ -105,7 +105,7 @@ manually_map = {
     u'eng': ['eg', 'og'],
 }
 
-
+# This function is wrong
 def convert_py_to_zrm(py: str):
     if py in manually_map.keys():
         return manually_map[py]

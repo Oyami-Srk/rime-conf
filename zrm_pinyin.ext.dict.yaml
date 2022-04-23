@@ -3,9 +3,10 @@ name: zrm_pinyin.ext
 version: "1.0"
 sort: by_weight
 use_preset_vocabulary: true
+vocabulary: essay-zh-hans
 import_tables:
-  - zrm_pinyin.py
   - zrm_pinyin.weight
+  # - ce_shi
   - xian_dai_han_yu_chang_yong_ci_biao
   - wang_luo_liu_xing_xin_ci
   - phrases

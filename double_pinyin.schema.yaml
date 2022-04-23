@@ -38,6 +38,9 @@ switches:
 engine:
   processors:
     - lua_processor@select_character_processor
+    - lua_processor@baidu_processor
+    - lua_processor@c2e_processor
+    - lua_processor@e2c_processor
     - ascii_composer
     - recognizer
     - key_binder
@@ -65,6 +68,9 @@ engine:
     - table_translator@zrm_lookup
     - table_translator@symbol
     - lua_translator@date_translator
+    - lua_translator@baidu_translator
+    - lua_translator@c2e_translator
+    - lua_translator@e2c_translator
   filters:
     - simplifier
     - simplifier@emoji_suggestion
@@ -84,7 +90,7 @@ speller:
 
 translator:
   dictionary: zrm_pinyin.ext
-  prism: zrm_pinyin
+  prism: zrm_pinyin.ext
 
 easy_en:
   dictionary: easy_en

@@ -48,3 +48,19 @@ charset_comment_filter = charset.comment_filter
 -- select_character_processor: 以词定字
 -- 详见 `lua/select_character.lua`
 select_character_processor = require("select_character")
+
+--- 百度云拼音，Control+t 为云输入触发键
+--- 使用方法：
+--- 将 "lua_translator@baidu_translator" 和 "lua_processor@baidu_processor"
+--- 分别加到输入方案的 engine/translators 和 engine/processors 中
+local baidu = require("trigger")("Control+b", require("baidu"))
+baidu_translator = baidu.translator
+baidu_processor = baidu.processor
+
+local c2e = require("trigger")("Control+t", require("c2e"))
+c2e_translator = c2e.translator
+c2e_processor = c2e.processor
+
+local e2c = require("trigger")("Control+e", require("e2c"))
+e2c_translator = e2c.translator
+e2c_processor = e2c.processor
