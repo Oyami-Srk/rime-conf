@@ -16,7 +16,13 @@ local function make(trig_key, trig_translator)
                 focus_text = context:get_commit_text()
                 selected_candidate = context:get_selected_candidate()
                 local seg = context.composition:back()
-                max_quality = context.composition:back().menu:get_candidate_at(0).quality
+                local first_cand = context.composition:back().menu:get_candidate_at(0)
+                if first_cand ~= nil then
+                    max_quality = first_cand.quality
+                else
+                    max_quality = nil
+                end
+
                 flag = true
                 context:refresh_non_confirmed_composition()
                 return kAccepted
