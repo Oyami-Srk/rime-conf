@@ -13,7 +13,7 @@ schema:
   dependencies:
     - easy_en
     - zrm_lookup
-    - luna_pinyin
+    # - luna_pinyin
     - japanese
     - latex
     - &symbol symbols
@@ -75,17 +75,51 @@ engine:
     - simplifier
     - simplifier@emoji_suggestion
     - uniquifier
+    # - lua_filter@easy_en_enhance_filter
   
 speller:
-  alphabet: "zyxwvutsrqponmlkjihgfedcba;"
-  initials: 'abcdefghijklmnopqrstuvwxyz'
+  alphabet: "abcdefghijklmnopqrstuvwxyz;"
+  initials: "abcdefghijklmnopqrstuvwxyz"
   delimiter: " '"
   algebra:
+    # ang -> aang, ong -> oong, eng -> eeng
+    - xform/^([aoe])ng/$1$1ng/
+    - xform/([^;])iu/$1Q/
+    - xform/([^;])[uv]e/$1T/
+    - xform/ing|uai/Y/
+    - xform/^sh/U/
+    - xform/^ch/I/
+    - xform/^zh/V/
+    - xform/([^;])uo/$1O/
+    - xform/([^;])[uv]n/$1P/
+    - xform/i?ong/S/
+    - xform/[iu]ang/D/
+    - xform/(.)eng/$1G/
+    - xform/(.)ang/$1H/
+    - xform/([^;])en/$1F/
+    - xform/[uv]an/R/
+    - xform/ian/M/
+    - xform/([^;])an/$1J/
+    - xform/iao/C/
+    - xform/([^;])[iu]a/$1W/
+    - xform/([^;])ao/$1K/
+    - xform/([^;])ai/$1L/
+    - xform/([^;])ei/$1Z/
+    - xform/([^;])ie/$1X/
+    - xform/([^;])ui/$1V/
+    - xform/([^;])ou/$1B/
+    - xform/([^;])in/$1N/
+    - xform/^a(;|$)/AA$1/
+    - xform/^o(;|$)/OO$1/
+    - xform/^e(;|$)/EE$1/
+    - xlit/QWERTYUIOPASDFGHMJCKLZXVBN/qwertyuiopasdfghmjcklzxvbn/
+    # - derive/^(..).*$/$1/
+    # - derive/^(...).*$/$1/
     - derive/^(\w*);(\w)(\w)$/$1;$2$3/
     - derive/^(\w*);(\w)(\w)$/$1;$2/
     - derive/^(\w*);(\w)(\w)$/$1/
-    # 下面这个开起来会非常卡
-    # - abbrev/^(.).+$/$1/
+    ## 下面这个开起来会非常卡
+    ## - abbrev/^(.).+$/$1/
     - abbrev/^(.{2});+$/$1/
 
 translator:
@@ -97,8 +131,11 @@ easy_en:
   enable_completion: true
   enable_sentence: false
   initial_quality: -90
-  use_wordninja_rs: true
-  wordninja_rs_path: "/home/shiroko/.cargo/bin/wordninja"
+  split_sentence: false
+  # use_wordninja_rs: true
+  # wordninja_rs_path: "/home/shiroko/.cargo/bin/wordninja"
+  # use_wordninja_rs_lua_module: false
+  # wordninja_rs_lua_module_path: "C:/Users/Shiroko/AppData/Roaming/Rime/wordninja_rs_lua54.dll"
 
 jpn:
   dictionary: japanese
@@ -178,8 +215,9 @@ emoji_suggestion:
   option_name: emoji_suggestion
   tips: none
 
-grammar:
-  language: zh-hans-t-essay-bgw
+# grammar:
+  # language: zh-hans-t-essay-bgw
+
 translator/contextual_suggestions: true
 translator/max_homophones: 7
 translator/max_homographs: 7

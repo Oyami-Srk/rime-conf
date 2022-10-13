@@ -1,49 +1,36 @@
-# Rime Custom settings
-# Shiroko <hhx.xxm@gmail.com>
-# 2022-3-31
-
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.14.3_dev_0.8
+  generator: "Rime::SwitcherSettings"
+  modified_time: "Thu Oct 13 20:47:09 2022"
+  rime_version: 1.7.3
 patch:
-  schema_list:
-    - schema: double_pinyin
-    - schema: easy_en
-    - schema: easy_jp
-  switcher/caption: 〔方案选单〕
-  switcher/hotkeys:
-      - "Control+equal"
-      - "Control+grave"
-  ascii_composer/good_old_caps_lock: false
-  ascii_composer/switch_key:
+  "ascii_composer/good_old_caps_lock": false
+  "ascii_composer/switch_key":
     Caps_Lock: commit_code
-    Shift_L: noop
-    Shift_R: commit_code
     Control_L: noop
     Control_R: noop
-  menu/page_size: 9
-  key_binder/bindings:
-    # Switch Pages
-    - { when: has_menu, accept: minus, send: Page_Up }
-    - { when: has_menu, accept: equal, send: Page_Down }
-    - { when: has_menu, accept: bracketleft, send: Page_Up }
-    - { when: has_menu, accept: bracketright, send: Page_Down }
-    # Switch ASCII punct
-    - { when: composing, accept: Control+period, toggle: ascii_punct}
-    # Switch Schema
-    - { when: always, accept: "Control+Shift+1", select: double_pinyin}
-    - { when: always, accept: "Control+Shift+exclam", select: double_pinyin}
-    - { when: always, accept: "Control+Shift+2", select: easy_en}
-    - { when: always, accept: "Control+Shift+at", select: easy_en}
-    - { when: always, accept: "Control+Shift+3", select: easy_jp}
-    - { when: always, accept: "Control+Shift+numbersign", select: easy_jp}
-    - { when: always, accept: "Control+Shift+space", select: .next}
-
-    # - {accept: "Control+Shift+1", select: .next, when: always}
-    # - {accept: "Control+Shift+2", toggle: ascii_mode, when: always}
-    # - {accept: "Control+Shift+3", toggle: full_shape, when: always}
-    # - {accept: "Control+Shift+4", toggle: simplification, when: always}
-    # - {accept: "Control+Shift+5", toggle: extended_charset, when: always}
-    # - {accept: "Control+Shift+exclam", select: .next, when: always}
-    # - {accept: "Control+Shift+at", toggle: ascii_mode, when: always}
-    # - {accept: "Control+Shift+numbersign", toggle: full_shape, when: always}
-    # - {accept: "Control+Shift+dollar", toggle: simplification, when: always}
-    # - {accept: "Control+Shift+percent", toggle: extended_charset, when: always}
-  
+    Shift_L: noop
+    Shift_R: commit_code
+  "key_binder/bindings":
+    - {accept: minus, send: Page_Up, when: has_menu}
+    - {accept: equal, send: Page_Down, when: has_menu}
+    - {accept: bracketleft, send: Page_Up, when: has_menu}
+    - {accept: bracketright, send: Page_Down, when: has_menu}
+    - {accept: "Control+period", toggle: ascii_punct, when: composing}
+    - {accept: "Control+Shift+1", select: double_pinyin, when: always}
+    - {accept: "Control+Shift+exclam", select: double_pinyin, when: always}
+    - {accept: "Control+Shift+2", select: easy_en, when: always}
+    - {accept: "Control+Shift+at", select: easy_en, when: always}
+    - {accept: "Control+Shift+3", select: easy_jp, when: always}
+    - {accept: "Control+Shift+numbersign", select: easy_jp, when: always}
+    - {accept: "Control+Shift+space", select: .next, when: always}
+  "menu/page_size": 9
+  schema_list:
+    - {schema: easy_en}
+    - {schema: easy_jp}
+    - {schema: double_pinyin}
+  "switcher/caption": "〔方案选单〕"
+  "switcher/hotkeys":
+    - "Control+equal"
+    - "Control+grave"

@@ -1,4 +1,8 @@
 local json = require("json")
+local http = require("socket.http")
+local url = require("socket.url")
+
+http.PROXY = "http://localhost:7890"
 
 local char_to_hex = function(c)
     return string.format("%%%02X", string.byte(c))
@@ -26,8 +30,8 @@ local function translator(input, seg)
     -- 'as space key
     local string = context:gsub("%'", " ")
 
-    local reply = io.popen('curl -s "' .. make_url(string) .. '"'):read("*all")
-    -- local reply = http.request(make_url(string))
+    -- local reply = io.popen('curl -s "' .. make_url(string) .. '"'):read("*all")
+    local reply = http.request(make_url(string))
     local data = json.decode(reply)
 
     for i, v in ipairs(data) do

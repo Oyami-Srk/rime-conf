@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 raw_dict = "zrm_pinyin.dict.yaml"
 char_dict = "base_singal_char_weight.txt"
-output = "zrm_pinyin.weight.dict.yaml"
+output = "zrm_fuzhuma.dict.yaml"
 additional_codec = "additional_codec_for_zrm.txt"
 
 zrm_table = {}
@@ -160,7 +160,7 @@ class py_char:
 
 def read_from_dict():
     meet = False
-    with open(raw_dict, 'r') as f:
+    with open(raw_dict, 'r', encoding='UTF-8') as f:
         for line in f.readlines():
             line = line.rstrip()
             if meet:
@@ -201,7 +201,7 @@ print(f"Loaded totally {len(zrm_table)} Zrm codes")
 
 chars = {}
 
-with open(char_dict, 'r') as f:
+with open(char_dict, 'r', encoding='UTF-8') as f:
     for line in f.readlines():
         line = line.rstrip()
         s = line.split('\t')
@@ -238,7 +238,7 @@ print(f"There are totally {len(uncoded)} uncoded chars.")
 print("Load additional codec for zrm.")
 uncoded = []
 
-with open(additional_codec, 'r') as f:
+with open(additional_codec, 'r', encoding='UTF-8') as f:
     for line in f.readlines():
         s = line.strip().split(',')
         if s[0] in zrm_table.keys():
@@ -250,6 +250,7 @@ with open(additional_codec, 'r') as f:
 
 result = []
 enable_f1 = False
+enable_zrm_codec = False
 
 for _, char in chars.items():
     has = False
@@ -269,37 +270,40 @@ for _, char in chars.items():
         if py[1] < min_freq:
             continue
         for code in codes:
-            for p in convert_py_to_zrm(py[0]):
-                if not enable_f1:
-                    ot = f"{cc}\t{p};{code}\t{py[1]}"
-                    result.append(ot)
-                else:
-                    head = f"{cc}\t{p}"
-                    # result.append(head)
-                    result.append(head+f"\t{py[1]}")
-                    # result.append(head+f";{code[0]}\t{py[1]}")
-                    # result.append(head+f";{code}\t{py[1]}")
-            if enable_f1:
-                break
+            if enable_zrm_codec:
+                for p in convert_py_to_zrm(py[0]):
+                    if not enable_f1:
+                        ot = f"{cc}\t{p};{code}\t{py[1]}"
+                        result.append(ot)
+                    else:
+                        head = f"{cc}\t{p}"
+                        # result.append(head)
+                        result.append(head+f"\t{py[1]}")
+                        # result.append(head+f";{code[0]}\t{py[1]}")
+                        # result.append(head+f";{code}\t{py[1]}")
+                if enable_f1:
+                    break
+            else:
+                ot = f"{cc}\t{py[0]};{code}"
+                result.append(ot)
 
 
 print(f"There are totally {len(uncoded)} uncoded chars.")
 print(f"Converted result: totally {len(result)} codec.")
 
-header = """# Rime dictionary: zrm_pinyin.weight
+header = """# Rime dictionary: zrm_fuzhuma
 # encoding: utf-8
 ---
-name: zrm_pinyin.weight
+name: zrm_fuzhuma
 version: "1.0"
 sort: by_weight
 use_preset_vocabulary: true
 columns:
   - text
   - code
-  - weight
 ...
 """
 
-with open(output, 'w') as f:
+with open(output, 'w', encoding='UTF-8') as f:
     f.write(header)
     f.writelines(list(map(lambda x: x+'\n', result)))

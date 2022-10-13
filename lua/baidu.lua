@@ -1,4 +1,6 @@
 local json = require("json")
+local http = require("socket.http")
+local url = require("socket.url")
 
 local Initial_Table = {
     v = 'zh',
@@ -83,9 +85,9 @@ local function make_url(input, bg, ed)
 end
 
 local function translator(input, seg, env)
-    local handle = io.popen('curl -s "' .. make_url(trans_double(input), 0, 5) .. '"')
-    -- local reply = http.request(make_url(input, 0, 5))
-    local reply = handle:read('*all')
+    -- local handle = io.popen('curl -s "' .. make_url(trans_double(input), 0, 5) .. '"')
+    local reply = http.request(make_url(trans_double(input), 0, 5))
+    -- local reply = handle:read('*all')
     local _, j = pcall(json.decode, reply)
 
     if j.status == "T" and j.result and j.result[1] then

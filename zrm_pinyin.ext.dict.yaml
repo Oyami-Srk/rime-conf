@@ -5,10 +5,22 @@ sort: by_weight
 use_preset_vocabulary: true
 vocabulary: essay-zh-hans
 import_tables:
-  - zrm_pinyin.weight
-  # - ce_shi
+  - zrm_fuzhuma
   - xian_dai_han_yu_chang_yong_ci_biao
+  - clover.phrase
+  - THUOCL_animal
+  - THUOCL_caijing
+  - THUOCL_car
+  - THUOCL_chengyu
+  - THUOCL_diming
+  - THUOCL_food
+  - THUOCL_IT
+  - THUOCL_law
+  - THUOCL_lishimingren
+  - THUOCL_medical
+  - THUOCL_poem
+  - kai_fa_da_shen_zhuan_yong_ci_ku
+  - cheng_yu_su_yu
   - wang_luo_liu_xing_xin_ci
-  - phrases
-  - ji_suan_ji_ci_hui
+  - ji_suan_ji_ci_hui_da_quan
 ...

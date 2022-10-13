@@ -1,5 +1,11 @@
 # EasyEn Custom patches
 
 patch:
-  easy_en/use_wordninja_rs: true
-  easy_en/wordninja_rs_path: "/home/shiroko/.cargo/bin/wordninja"
+  # easy_en/use_wordninja_rs: true
+  # easy_en/wordninja_rs_path: "/home/shiroko/.cargo/bin/wordninja"
+  easy_en/enable_completion: true
+  easy_en/enable_sentence: true
+  easy_en/initial_quality: -90
+  easy_en/split_sentence: true
+  easy_en/use_wordninja_rs_lua_module: true
+  easy_en/wordninja_rs_lua_module_path: "C:/Users/Shiroko/AppData/Roaming/Rime/wordninja_rs_lua54.dll"

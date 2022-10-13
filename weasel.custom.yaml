@@ -1,0 +1,33 @@
+# weasel.custom.yaml
+
+patch:
+  app_options:
+    cmd.exe:
+      ascii_mode: true
+    conhost.exe:
+      ascii_mode: true
+    code.exe:
+      ascii_mode: true
+    windowsterminal.exe:
+      ascii_mode: true
+  style:
+    color_scheme: aqua
+    font_face: Microsoft YaHei
+    font_point: 14
+    horizontal: true
+    fullscreen: false
+    inline_preedit: true
+    preedit_type: composition
+    display_tray_icon: false
+    label_format: "%s."
+    layout:
+      min_width: 160
+      min_height: 0
+      border_width: 3
+      margin_x: 12
+      margin_y: 12
+      spacing: 10
+      candidate_spacing: 5
+      hilite_spacing: 4
+      hilite_padding: 2
+      round_corner: 4
