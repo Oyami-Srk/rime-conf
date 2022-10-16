@@ -25,6 +25,9 @@ patch:
     - {accept: "Control+Shift+3", select: easy_jp, when: always}
     - {accept: "Control+Shift+numbersign", select: easy_jp, when: always}
     - {accept: "Control+Shift+space", select: .next, when: always}
+    - {accept: ISO_Left_Tab, send: "Shift+Left", when: composing}
+    - {accept: "Shift+Tab", send: "Shift+Left", when: composing}
+    - {accept: Tab, send: "Shift+Right", when: composing}
   "menu/page_size": 9
   schema_list:
     - {schema: easy_en}

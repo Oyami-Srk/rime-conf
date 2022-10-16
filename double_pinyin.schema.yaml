@@ -59,6 +59,7 @@ engine:
     - punct_segmentor
     - fallback_segmentor
   translators:
+    - lua_translator@number_translator
     - punct_translator
     - reverse_lookup_translator
     - script_translator
@@ -78,8 +79,8 @@ engine:
     # - lua_filter@easy_en_enhance_filter
   
 speller:
-  alphabet: "abcdefghijklmnopqrstuvwxyz;"
-  initials: "abcdefghijklmnopqrstuvwxyz"
+  alphabet: "abcdefghijklmnopqrstuvwxyz;=+-*/()."
+  initials: "abcdefghijklmnopqrstuvwxyz="
   delimiter: " '"
   algebra:
     # ang -> aang, ong -> oong, eng -> eeng
@@ -209,6 +210,7 @@ recognizer:
     latex: \\[a-z0-9A-Z^-_\\><\+=\(\)\[\]]+;?
     zrm_lookup: "`z[a-z,.]*'?$"
     symbol: /[a-z0-9?']+;?
+    jsq: "^=[^;']+$"
 
 emoji_suggestion:
   opencc_config: emoji.json

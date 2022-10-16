@@ -64,3 +64,6 @@ c2e_processor = c2e.processor
 local e2c = require("trigger")("Control+e", require("e2c"))
 e2c_translator = e2c.translator
 e2c_processor = e2c.processor
+
+--- xnumber
+number_translator = require("numberx")

@@ -45,5 +45,5 @@
 	path = rime-repos/rime-lua-select-character
 	url = git@github.com:Oyami-Srk/rime-lua-select-character
 [submodule "dictionaries/rime-cloverpinyin"]
-	path = dictionaries/rime-cloverpinyin
+	path = scripts/rime-cloverpinyin
 	url = https://github.com/fkxxyz/rime-cloverpinyin
