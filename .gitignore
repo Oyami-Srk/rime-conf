@@ -1,4 +1,6 @@
 build
+sync
+sync*
 *.userdb
 user.yaml
 installation.yaml

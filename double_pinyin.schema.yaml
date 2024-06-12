@@ -21,19 +21,19 @@ schema:
 switches:
   - name: ascii_mode
     reset: 0
-    states: [ 中, 英 ]
+    states: [中, 英]
   - name: full_shape
-    states: [ 半, 全 ]
+    states: [半, 全]
   - name: simplification
     reset: 1
-    states: [ 漢, 汉 ]
+    states: [漢, 汉]
   - name: ascii_punct
-    states: [ 。，, ．， ]
+    states: [。，, ．，]
   - name: _hide_comment
     reset: 1
   - name: emoji_suggestion
     reset: 0
-    states: [ "🈚️️\uFE0E", "🈶️️\uFE0F" ]
+    states: ["🈚️️\uFE0E", "🈶️️\uFE0F"]
 
 engine:
   processors:
@@ -77,7 +77,7 @@ engine:
     - simplifier@emoji_suggestion
     - uniquifier
     # - lua_filter@easy_en_enhance_filter
-  
+
 speller:
   alphabet: "abcdefghijklmnopqrstuvwxyz;=+-*/()."
   initials: "abcdefghijklmnopqrstuvwxyz="
@@ -126,6 +126,8 @@ speller:
 translator:
   dictionary: zrm_pinyin.ext
   prism: zrm_pinyin.ext
+  user_dict: zrm_pinyin
+  enable_user_dict: true
 
 easy_en:
   dictionary: easy_en
@@ -147,7 +149,7 @@ jpn:
 latex:
   tag: latex
   prefix: '\'
-  suffix: ';'
+  suffix: ";"
   tips: 〔LaTeX〕
   closing_tips: 〔自然码〕
   dictionary: latex
@@ -176,8 +178,8 @@ zrm_lookup:
 
 symbol:
   tag: symbol
-  prefix: '/'
-  suffix: ';'
+  prefix: "/"
+  suffix: ";"
   tips: 〔符号〕
   closing_tips: 〔自然码〕
   dictionary: *symbol
@@ -197,10 +199,9 @@ key_binder:
   import_preset: default
   bindings:
     - { when: always, accept: "Control+Shift+E", toggle: emoji_suggestion }
-  select_first_character: 'comma'
-  select_last_character: 'period'
-  select_character_only_for_initial: 'abcdefghijklmnopqrstuvwxyz'
-
+  select_first_character: "comma"
+  select_last_character: "period"
+  select_character_only_for_initial: "abcdefghijklmnopqrstuvwxyz"
 
 recognizer:
   import_preset: default
@@ -217,8 +218,8 @@ emoji_suggestion:
   option_name: emoji_suggestion
   tips: none
 
-# grammar:
-  # language: zh-hans-t-essay-bgw
+grammar:
+  language: zh-hans-t-essay-bgw
 
 translator/contextual_suggestions: true
 translator/max_homophones: 7

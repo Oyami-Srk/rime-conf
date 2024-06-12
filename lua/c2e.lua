@@ -1,8 +1,9 @@
 local json = require("json")
-local http = require("socket.http")
-local url = require("socket.url")
+-- local http = require("socket.http")
+local http = require("simplehttp")
 
-http.PROXY="http://localhost:7890"
+http.TIMEOUT = 0.5
+http.PROXY = "http://localhost:7890"
 
 local char_to_hex = function(c)
     return string.format("%%%02X", string.byte(c))
@@ -22,7 +23,7 @@ local function make_url(input)
     local sl = "zh_TW"
     local tl = "en"
     return 'http://translate.googleapis.com/translate_a/single?client=gtx&sl=' .. sl .. '&tl=' .. tl .. '&dt=t&q=' ..
-               urlencode(input)
+        urlencode(input)
 end
 
 local function translator(input, seg, env)

@@ -19,9 +19,9 @@ function date_translator(input, seg)
     end
     if (input == "week") then
         local weakTab = {'日', '一', '二', '三', '四', '五', '六'}
-        yield(Candidate("week", seg.start, seg._end, "周"..weakTab[tonumber(os.date("%w")+1)], ""))
-        yield(Candidate("week", seg.start, seg._end, "星期"..weakTab[tonumber(os.date("%w")+1)], ""))
-        yield(Candidate("week", seg.start, seg._end, "礼拜"..weakTab[tonumber(os.date("%w")+1)], ""))
+        yield(Candidate("week", seg.start, seg._end, "周" .. weakTab[tonumber(os.date("%w") + 1)], ""))
+        yield(Candidate("week", seg.start, seg._end, "星期" .. weakTab[tonumber(os.date("%w") + 1)], ""))
+        yield(Candidate("week", seg.start, seg._end, "礼拜" .. weakTab[tonumber(os.date("%w") + 1)], ""))
     end
 end
 
@@ -53,8 +53,12 @@ select_character_processor = require("select_character")
 --- 使用方法：
 --- 将 "lua_translator@baidu_translator" 和 "lua_processor@baidu_processor"
 --- 分别加到输入方案的 engine/translators 和 engine/processors 中
-local baidu = require("trigger")("Control+b", require("baidu"))
-baidu_translator = baidu.translator
+baidu_require = require("baidu")
+local baidu = require("trigger")("Control+b", baidu_require.func)
+baidu_translator = {
+    init = baidu_require.init,
+    func = baidu.translator
+}
 baidu_processor = baidu.processor
 
 local c2e = require("trigger")("Control+t", require("c2e"))
