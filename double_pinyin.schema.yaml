@@ -39,6 +39,7 @@ engine:
   processors:
     - lua_processor@select_character_processor
     - lua_processor@baidu_processor
+    - lua_processor@sougou_processor
     - lua_processor@c2e_processor
     - lua_processor@e2c_processor
     - ascii_composer
@@ -70,6 +71,7 @@ engine:
     - table_translator@symbol
     - lua_translator@date_translator
     - lua_translator@baidu_translator
+    - lua_translator@sougou_translator
     - lua_translator@c2e_translator
     - lua_translator@e2c_translator
   filters:

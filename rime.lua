@@ -18,7 +18,7 @@ function date_translator(input, seg)
         yield(Candidate("time", seg.start, seg._end, os.date("%H:%M:%S"), ""))
     end
     if (input == "week") then
-        local weakTab = {'日', '一', '二', '三', '四', '五', '六'}
+        local weakTab = { '日', '一', '二', '三', '四', '五', '六' }
         yield(Candidate("week", seg.start, seg._end, "周" .. weakTab[tonumber(os.date("%w") + 1)], ""))
         yield(Candidate("week", seg.start, seg._end, "星期" .. weakTab[tonumber(os.date("%w") + 1)], ""))
         yield(Candidate("week", seg.start, seg._end, "礼拜" .. weakTab[tonumber(os.date("%w") + 1)], ""))
@@ -49,7 +49,7 @@ charset_comment_filter = charset.comment_filter
 -- 详见 `lua/select_character.lua`
 select_character_processor = require("select_character")
 
---- 百度云拼音，Control+t 为云输入触发键
+--- 百度云拼音，Control+b 为云输入触发键
 --- 使用方法：
 --- 将 "lua_translator@baidu_translator" 和 "lua_processor@baidu_processor"
 --- 分别加到输入方案的 engine/translators 和 engine/processors 中
@@ -61,13 +61,26 @@ baidu_translator = {
 }
 baidu_processor = baidu.processor
 
-local c2e = require("trigger")("Control+t", require("c2e"))
-c2e_translator = c2e.translator
-c2e_processor = c2e.processor
 
-local e2c = require("trigger")("Control+e", require("e2c"))
-e2c_translator = e2c.translator
-e2c_processor = e2c.processor
+--- 搜狗云拼音，Control+s 为云输入触发键
+--- 使用方法：
+--- 将 "lua_translator@sougou_translator" 和 "lua_processor@sougou_processor"
+--- 分别加到输入方案的 engine/translators 和 engine/processors 中
+sougou_require = require("sougou")
+local sougou = require("trigger")("Control+s", sougou_require.func)
+sougou_translator = {
+    init = sougou_require.init,
+    func = sougou.translator
+}
+sougou_processor = sougou.processor
+
+-- local c2e = require("trigger")("Control+t", require("c2e"))
+-- c2e_translator = c2e.translator
+-- c2e_processor = c2e.processor
+-- 
+-- local e2c = require("trigger")("Control+e", require("e2c"))
+-- e2c_translator = e2c.translator
+-- e2c_processor = e2c.processor
 
 --- xnumber
 number_translator = require("numberx")

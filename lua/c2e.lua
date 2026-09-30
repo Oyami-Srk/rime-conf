@@ -31,6 +31,7 @@ local function translator(input, seg, env)
     -- print(env.max_quality)
     -- local reply = io.popen('curl -s "' .. make_url(S) .. '"'):read("*all")
     local reply = http.request(make_url(S))
+    print(reply)
     local data = json.decode(reply)
 
     for i, v in ipairs(data) do
