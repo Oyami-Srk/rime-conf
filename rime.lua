@@ -70,7 +70,8 @@ sougou_require = require("sougou")
 local sougou = require("trigger")("Control+s", sougou_require.func)
 sougou_translator = {
     init = sougou_require.init,
-    func = sougou.translator
+    func = sougou.translator,
+    fini = sougou_require.fini
 }
 sougou_processor = sougou.processor
 

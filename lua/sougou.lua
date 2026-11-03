@@ -1,6 +1,7 @@
 local http = require("simplehttp")
 local iconv = require("iconv")
 local double_pinyin = require("double_pinyin")
+local request_timeout = 2 -- seconds; cloud lookup runs on the input thread
 
 function rc(x)
     local start = 0
@@ -31,11 +32,28 @@ function open_sogou(keys, durtot, version)
         "http://shouji.sogou.com/web_ime/mobile.php?durtot=%d&h=000000000000000&r=store_mf_wandoujia&v=%s", durtot,
         version)
     local data = serial_keys(keys)
-    return http.request(url, data)
+    -- simplehttp has no default timeout. Restore the shared setting because
+    -- the Baidu translator also uses this module.
+    local previous_timeout = http.TIMEOUT
+    http.TIMEOUT = request_timeout
+    log.info("[sougou] request started: " .. keys)
+    local ok, response, status = pcall(http.request, url, data)
+    http.TIMEOUT = previous_timeout
+    if not ok then
+        log.error("[sougou] request failed: " .. tostring(response))
+        return nil, response
+    end
+    log.info("[sougou] request finished, status: " .. tostring(status))
+    return response, status
 end
 
 function parse_result(result)
     local words = {}
+
+    if type(result) ~= "string" or #result < 0x14 then
+        log.error("[sougou] empty or truncated response")
+        return words
+    end
 
     if string.byte(result, 1) + 2 ~= #result then
         log.error("[sougou] invalid size, expected", string.byte(result, 1) + 2, "got", #result)
@@ -44,7 +62,8 @@ function parse_result(result)
 
     local num_words = string.unpack("<H", string.sub(result, 0x12 + 1, 0x12 + 2))
     if num_words == 0 or num_words > 32 then
-        log.warning("[sougou] strange words num", num_words)
+        log.warning("[sougou] invalid word count: " .. tostring(num_words))
+        return words
     end
 
     local pos = 0x14 -- data packet starts at 0x14
@@ -92,36 +111,103 @@ end
 function get_cloud_words(keys)
     local resp, code = open_sogou(keys)
     if code ~= 200 then
-        log.error(string.format("[sougou] invalid response for input <%s>: status: %d", keys, code))
+        log.error(string.format("[sougou] invalid response for input <%s>: status: %s", keys, tostring(code)))
         return {}
     end
 
-    return parse_result(resp)
+    local ok, words = pcall(parse_result, resp)
+    if not ok then
+        log.error("[sougou] cannot parse response: " .. tostring(words))
+        return {}
+    end
+    return words
 end
 
-local function memoryCallback(memory, commit)
-    for i, dictentry in ipairs(commit:get()) do
-        -- memory:update_userdict(dictentry, 0, "") -- do nothing to userdict
-        if dictentry.comment == "(搜狗云拼音)" then
-            log.info("Remember: " .. dictentry.text .. " " .. dictentry.weight .. " " .. dictentry.comment .. "")
-            local result = memory:update_userdict(dictentry, 1, "") -- update entry to userdict
-            log.info("Remember reuslt: " .. tostring(result))
-        end
-        -- memory:update_userdict(dictentry,1,"") -- delete entry to userdict
+local function get_user_code(input)
+    -- Only learn complete double-pinyin syllables. Apostrophes/spaces may
+    -- separate syllables; auxiliary codes and abbreviations are not decoded.
+    if not input:match("^[a-z' ]+$") then
+        return nil
     end
-    return true
+
+    local parts = {}
+    local syllable_count = 0
+    for part in input:gmatch("[a-z]+") do
+        if #part % 2 ~= 0 then
+            return nil
+        end
+        -- expand() prefixes each syllable with the delimiter, including the first.
+        parts[#parts + 1] = double_pinyin:expand(part, " "):gsub("^ +", "")
+        syllable_count = syllable_count + #part / 2
+    end
+    if syllable_count == 0 then
+        return nil
+    end
+
+    -- Rime user-dictionary keys need a space after every full-pinyin syllable.
+    return table.concat(parts, " ") .. " ", syllable_count
+end
+
+local function remember(context, env)
+    local entries = {}
+    for _, seg in ipairs(context.composition:toSegmentation():get_segments()) do
+        local candidate = seg:get_selected_candidate()
+        local genuine = candidate and candidate:get_genuine()
+        if genuine and genuine.type == "sougou" then
+            local input = context.input:sub(genuine.start + 1, genuine._end)
+            local code, syllable_count = get_user_code(input)
+            -- The cloud service may complete/correct the input. Do not attach
+            -- the typed reading to a result with a different character count.
+            if code and utf8.len(genuine.text) == syllable_count then
+                local entry = DictEntry()
+                entry.text = genuine.text
+                entry.custom_code = code
+                entries[#entries + 1] = entry
+            end
+        end
+    end
+    if #entries == 0 then
+        return
+    end
+
+    -- Open the main user dictionary only when actually committing a cloud
+    -- candidate, and release it before returning to the input loop.
+    local memory = Memory(env.engine, env.engine.schema, "translator")
+    local ok, err = pcall(function()
+        memory:start_session()
+        for _, entry in ipairs(entries) do
+            if memory:update_userdict(entry, 1, "") then
+                log.info("[sougou] remembered: " .. entry.text .. " / " .. entry.custom_code)
+            else
+                log.error("[sougou] failed to remember: " .. entry.text)
+            end
+        end
+    end)
+    memory:finish_session()
+    memory:disconnect()
+    if not ok then
+        log.error("[sougou] cannot update user dictionary: " .. tostring(err))
+    end
 end
 
 local function init(env)
-    log.info("Schema: " .. env.engine.schema.schema_id)
-    env.mem = Memory(env.engine, env.engine.schema) --  ns= "translator"
-    env.mem:memorize(function(commit)
-        memoryCallback(env.mem, commit)
+    -- Keep cloud candidates simple: Phrase candidates without numeric codes
+    -- would also be learned by script_translator with an empty/partial code.
+    env.commit_connection = env.engine.context.commit_notifier:connect(function(context)
+        remember(context, env)
     end)
 end
 
+local function fini(env)
+    if env.commit_connection then
+        env.commit_connection:disconnect()
+        env.commit_connection = nil
+    end
+end
+
 local function translator(input, seg)
-    local pinyin = double_pinyin:expand(input)
+    local code = get_user_code(input)
+    local pinyin = code and code:gsub(" ", "") or double_pinyin:expand(input)
     local list = get_cloud_words(pinyin)
     local yielded_candidates = 0
     local max_candidates = 5
@@ -130,7 +216,7 @@ local function translator(input, seg)
             break
         end
 
-        local c = Candidate("simple", seg.start, seg._end, v, "(搜狗云拼音)")
+        local c = Candidate("sougou", seg.start, seg._end, v, "(搜狗云拼音)")
         c.quality = 2
         yield(c)
 
@@ -139,6 +225,7 @@ local function translator(input, seg)
 end
 
 return {
-    init = nil,
-    func = translator
+    init = init,
+    func = translator,
+    fini = fini
 }
